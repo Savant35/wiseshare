@@ -1,3 +1,6 @@
+using System.Linq.Expressions;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using EntityFramework.Exceptions.Common;
 using FluentResults;
 using Wiseshare.Application.Repository;
@@ -10,7 +13,7 @@ namespace Wiseshare.Application.services.UserServices;
 public class UserService : IUserService
 {
 
-   
+
 
     private readonly IUserRepository _userRepository;
 
@@ -57,8 +60,31 @@ public class UserService : IUserService
 
     public Result Insert(User user)
     {
+        //validate password strength
+        string passwordPatter = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$";
+        if (!Regex.IsMatch(user.Password, passwordPatter))
+        {
+            return Result.Fail("password does not meet strength requirements requirements: length 12, 1 or more uppercase and lowercase, 1 or more digits and special characters((@$!%*#?&))");
+        }
+
+        // Validate email format
         try
         {
+            var addr = new MailAddress(user.Email);
+            if (addr.Address != user.Email)
+            {
+                return Result.Fail("The provided email address is invalid.");
+            }
+        }
+        catch
+        {
+            return Result.Fail("The provided email address is invalid.");
+        }
+
+
+        try
+        {
+
             return _userRepository.Insert(user);
         }
         catch (UniqueConstraintException e)
