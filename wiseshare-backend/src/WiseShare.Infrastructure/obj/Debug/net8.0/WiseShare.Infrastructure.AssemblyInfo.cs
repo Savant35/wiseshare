@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WiseShare.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a7fd3ee93dbe4ed61285533ba175658320c066c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ba10bf3a83bc7b2f6ca03d909e6056c397ba590")]
 [assembly: System.Reflection.AssemblyProductAttribute("WiseShare.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WiseShare.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

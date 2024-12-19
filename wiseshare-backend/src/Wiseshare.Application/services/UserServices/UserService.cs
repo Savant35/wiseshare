@@ -10,18 +10,7 @@ namespace Wiseshare.Application.services.UserServices;
 public class UserService : IUserService
 {
 
-    //private readonly List<User> _users;
-
-    /*
-        public UserService()
-        {
-            _users = new List<User>{
-                User.Create("Ali", "Arthur", "ali@gmail.com", "814-218-1111", "password123"),
-                User.Create("John", "Smith", "ali2@gmail.com", "814-218-2222", "password456"),
-                User.Create("Jane", "Doe", "ali3@gmail.com", "814-218-3333", "password678")
-            };
-        }
-        */
+   
 
     private readonly IUserRepository _userRepository;
 
@@ -81,10 +70,11 @@ public class UserService : IUserService
             {
                 return Result.Fail("A user with the same Email already exists.");
             }
-            else if (message.Contains("Phone")){
-                return Result.Fail("A user With that phone number already Exists");
+            else if (message.Contains("Phone"))
+            {
+                return Result.Fail("A user With the same Phone number already Exists");
             }
-            return Result.Fail("unknow error ");
+            return Result.Fail("User Registration failed DB Error");
         }
     }
     public Result Update(User user)

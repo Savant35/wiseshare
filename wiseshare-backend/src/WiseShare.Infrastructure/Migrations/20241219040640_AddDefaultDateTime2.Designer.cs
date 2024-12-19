@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WiseShare.Infrastructure.Persistence;
 
@@ -10,9 +11,11 @@ using WiseShare.Infrastructure.Persistence;
 namespace WiseShare.Infrastructure.Migrations
 {
     [DbContext(typeof(WiseShareDbContext))]
-    partial class WiseShareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241219040640_AddDefaultDateTime2")]
+    partial class AddDefaultDateTime2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -25,7 +28,7 @@ namespace WiseShare.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime')");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -55,7 +58,7 @@ namespace WiseShare.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedDateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime')");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
