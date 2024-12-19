@@ -12,9 +12,6 @@ namespace Wiseshare.Application.services.UserServices;
 
 public class UserService : IUserService
 {
-
-
-
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository)
@@ -25,29 +22,15 @@ public class UserService : IUserService
     public Result<User> GetUserById(UserId userId)
     {
         return _userRepository.GetUserById(userId);
-
-
-        //return _users.FirstOrDefault(user => user.Id.Value == userId);//user represent each individual item in the _list => means do this which is comparing
-        //how the function would look like without using lambda function
-        /*foreach (var user in _users)
-    {
-        if (user.Id.Value == userId)
-        {
-            return user;
-        }
     }
-    return null; */
-    }
+
     public Result<IEnumerable<User>> GetUsers()
     {
         return _userRepository.GetUsers();
-
     }
+
     public Result<User> GetUserByEmail(string email)
     {
-        //find the first user with a matching email then stop searching
-        //return _users.FirstOrDefault(user => user.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
-
         return _userRepository.GetUserByEmail(email);
     }
 
@@ -103,21 +86,9 @@ public class UserService : IUserService
             return Result.Fail("User Registration failed DB Error");
         }
     }
+
     public Result Update(User user)
     {
-        // if (User is null) return null; // Check if userId exist if not return null 
-
-        // // Retrieve the existing user object from the repository
-        // var user = _userRepository.Read(userId.Value);
-        // if (user is null) return null;
-
-        // //checks if the user Provide information to update if not return the current value by using the getter
-        // var updatedEmail = !string.IsNullOrWhiteSpace(email) ? email : user.Email;
-        // var updatedPhone = !string.IsNullOrWhiteSpace(phone) ? phone : user.Phone;
-        // var updatedPassword = !string.IsNullOrWhiteSpace(password) ? password : user.Password;
-
-        // // Call the repository to update the user with the updated values
-        // return _userRepository.Update(userId, updatedEmail, updatedPhone, updatedPassword);
         return _userRepository.Update(user);
     }
 
@@ -125,9 +96,9 @@ public class UserService : IUserService
     {
         return _userRepository.Save();
     }
+
     public Result Delete(UserId userId)
     {
-        //delete a user by passed in ID
         return _userRepository.Delete(userId);
     }
 
