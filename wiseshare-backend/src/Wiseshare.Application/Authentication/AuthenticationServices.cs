@@ -1,46 +1,49 @@
 using FluentResults;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
+using Wiseshare.Application.services;
+using Wiseshare.Application.services.UserServices;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 using WiseShare.Application.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public AuthenticationService(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
+    public AuthenticationService(IUserService userService, IJwtTokenGenerator jwtTokenGenerator)
     {
-        _userRepository = userRepository;
+        _userService = userService;
         _jwtTokenGenerator = jwtTokenGenerator;
     }
 
     // Handles user registration
     public Result Register(string firstName, string lastName, string email, string phone, string password)
     {
-        // Check if a user with the same email or phone already exists
-        /*if (_userRepository.GetUserByEmail(email).IsSuccess || _userRepository.GetUserByPhone(phone).IsSuccess)
-        {
-            return Result.Fail("User with the same email or phone already exists.");
-        }
-        */
-
         // Create a new user
         var user = User.Create(firstName, lastName, email, phone, password);
 
-        // Save the user to the repository
-        _userRepository.Insert(user);
+        // Attempt to save the user using UserService
+        var insertResult = _userService.Insert(user);
 
-        // Return success
+        // Check if the insertion failed
+        if (insertResult.IsFailed)
+        {
+            // Propagate the failure
+            return Result.Fail(insertResult.Errors);
+        }
+
+        // Return success if the user was inserted successfully
         return Result.Ok();
     }
+
 
     // Handles user login
     public Result<(string Token, string FirstName, string LastName)> Login(string email, string password)
     {
         // Retrieve the user by email
-        var userResult = _userRepository.GetUserByEmail(email);
+        var userResult = _userService.GetUserByEmail(email);
 
         if (userResult.IsFailed)
         {

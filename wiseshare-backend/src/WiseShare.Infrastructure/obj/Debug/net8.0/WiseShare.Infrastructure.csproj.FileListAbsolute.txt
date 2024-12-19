@@ -33,3 +33,4 @@
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Infrastructure/obj/Debug/net8.0/refint/WiseShare.Infrastructure.dll
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Infrastructure/obj/Debug/net8.0/WiseShare.Infrastructure.pdb
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Infrastructure/obj/Debug/net8.0/ref/WiseShare.Infrastructure.dll
+/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Infrastructure/obj/Debug/net8.0/WiseShare.Infrastructure.sourcelink.json

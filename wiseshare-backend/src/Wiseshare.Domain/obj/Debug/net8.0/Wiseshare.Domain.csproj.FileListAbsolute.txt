@@ -36,3 +36,4 @@
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Domain/obj/Debug/net8.0/refint/Wiseshare.Domain.dll
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Domain/obj/Debug/net8.0/Wiseshare.Domain.pdb
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Domain/obj/Debug/net8.0/ref/Wiseshare.Domain.dll
+/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Domain/obj/Debug/net8.0/Wiseshare.Domain.sourcelink.json

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WiseShare.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a7fd3ee93dbe4ed61285533ba175658320c066c")]
 [assembly: System.Reflection.AssemblyProductAttribute("WiseShare.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WiseShare.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

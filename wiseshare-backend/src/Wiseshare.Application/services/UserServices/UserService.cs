@@ -1,3 +1,4 @@
+using EntityFramework.Exceptions.Common;
 using FluentResults;
 using Wiseshare.Application.Repository;
 using Wiseshare.Domain.UserAggregate;
@@ -58,7 +59,7 @@ public class UserService : IUserService
         return _userRepository.GetUserByEmail(email);
     }
 
-     public Result<User> GetUserByPhone(string phone)
+    public Result<User> GetUserByPhone(string phone)
     {
         //find the user with the first matching phone number
         //return _users.FirstOrDefault(user => user.Phone == phone);
@@ -67,7 +68,24 @@ public class UserService : IUserService
 
     public Result Insert(User user)
     {
-        return _userRepository.Insert(user);
+        try
+        {
+            return _userRepository.Insert(user);
+        }
+        catch (UniqueConstraintException e)
+        {
+            var message = e.InnerException?.Message ?? e.Message;
+            //Console.WriteLine(message);
+
+            if (message.Contains("Email"))
+            {
+                return Result.Fail("A user with the same Email already exists.");
+            }
+            else if (message.Contains("Phone")){
+                return Result.Fail("A user With that phone number already Exists");
+            }
+            return Result.Fail("unknow error ");
+        }
     }
     public Result Update(User user)
     {
@@ -87,7 +105,8 @@ public class UserService : IUserService
         return _userRepository.Update(user);
     }
 
-    public Result Save(){
+    public Result Save()
+    {
         return _userRepository.Save();
     }
     public Result Delete(UserId userId)

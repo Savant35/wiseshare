@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "9cj87NXlqwE=",
+  "dgSpecHash": "CxYYra0Acug=",
   "success": true,
   "projectFilePath": "/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Infrastructure/WiseShare.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "/Users/ali/.nuget/packages/entityframeworkcore.exceptions.common/8.1.3/entityframeworkcore.exceptions.common.8.1.3.nupkg.sha512",
+    "/Users/ali/.nuget/packages/entityframeworkcore.exceptions.sqlite/8.1.3/entityframeworkcore.exceptions.sqlite.8.1.3.nupkg.sha512",
     "/Users/ali/.nuget/packages/fluentresults/3.16.0/fluentresults.3.16.0.nupkg.sha512",
     "/Users/ali/.nuget/packages/mediatr/12.4.1/mediatr.12.4.1.nupkg.sha512",
     "/Users/ali/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/Users/ali/.nuget/packages/microsoft.data.sqlite/8.0.0/microsoft.data.sqlite.8.0.0.nupkg.sha512",
     "/Users/ali/.nuget/packages/microsoft.data.sqlite.core/9.0.0/microsoft.data.sqlite.core.9.0.0.nupkg.sha512",
     "/Users/ali/.nuget/packages/microsoft.entityframeworkcore/9.0.0/microsoft.entityframeworkcore.9.0.0.nupkg.sha512",
     "/Users/ali/.nuget/packages/microsoft.entityframeworkcore.abstractions/9.0.0/microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512",

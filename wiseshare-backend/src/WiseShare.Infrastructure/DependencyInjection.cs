@@ -1,8 +1,11 @@
+using EntityFramework.Exceptions.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
+using Wiseshare.Application.services;
+using Wiseshare.Application.services.UserServices;
 using WiseShare.Application.Authentication;
 using WiseShare.Application.Common.Interfaces.Services;
 using WiseShare.Infrastructure.Authentication;
@@ -24,10 +27,12 @@ public static class DependencyInjection
 
         // Use the database-backed repository for user (real DB)
         services.AddDbContext<WiseShareDbContext>(options =>
-            options.UseSqlite(configuration.GetConnectionString("WiseShareDatabase")));
+            options.UseSqlite(configuration.GetConnectionString("WiseShareDatabase"))
+            .UseExceptionProcessor());
 
         // Register user repository for DB interactions
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService>();
 
         // Authentication and JWT - Change the lifetime to Scoped
         services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));

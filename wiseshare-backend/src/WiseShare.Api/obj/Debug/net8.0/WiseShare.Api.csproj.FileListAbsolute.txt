@@ -351,3 +351,6 @@
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Api/obj/Debug/net8.0/WiseShare.Api.pdb
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Api/obj/Debug/net8.0/WiseShare.Api.genruntimeconfig.cache
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Api/obj/Debug/net8.0/ref/WiseShare.Api.dll
+/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Api/obj/Debug/net8.0/WiseShare.Api.sourcelink.json
+/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Api/bin/Debug/net8.0/EntityFramework.Exceptions.Common.dll
+/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Api/bin/Debug/net8.0/EntityFramework.Exceptions.Sqlite.dll

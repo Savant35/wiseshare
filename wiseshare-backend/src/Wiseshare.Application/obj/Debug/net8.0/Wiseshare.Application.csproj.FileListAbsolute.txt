@@ -45,3 +45,4 @@
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Application/obj/Debug/net8.0/refint/Wiseshare.Application.dll
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Application/obj/Debug/net8.0/Wiseshare.Application.pdb
 /Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/WiseShare.Application/obj/Debug/net8.0/ref/Wiseshare.Application.dll
+/Users/ali/projects/dotnet/wiseshare/wiseshare-backend/src/Wiseshare.Application/obj/Debug/net8.0/Wiseshare.Application.sourcelink.json

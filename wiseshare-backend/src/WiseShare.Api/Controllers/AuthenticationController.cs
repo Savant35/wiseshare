@@ -25,14 +25,18 @@ public class AuthenticationController : ControllerBase
             request.Email,
             request.Phone,
             request.Password);
-            /*
 
         if (result.IsFailed)
         {
-            return BadRequest(result.Errors.Select(e => e.Message));
+            // Return a bad request with error messages
+            return BadRequest(new
+            {
+                Message = "Registration failed",
+                Errors = result.Errors.Select(e => e.Message).ToList()
+            });
         }
-        */
 
+        // On success, return a success response
         return Ok(new { Message = "Registration successful" });
     }
 
