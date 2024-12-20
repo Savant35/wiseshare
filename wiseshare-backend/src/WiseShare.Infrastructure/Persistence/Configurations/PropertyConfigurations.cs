@@ -25,25 +25,49 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
             .HasConversion(
                 id => id.Value,
                 value => PropertyId.Create(value));
-        
+
         builder.Property(p => p.Name)
-            .HasMaxLength(100);
-         
+            .HasMaxLength(250)
+            .IsRequired();
+
+
+
         builder.Property(p => p.Description)
-            .HasMaxLength(250);
+            .HasMaxLength(250)
+            .IsRequired();
 
-        builder.Property(p => p.Address);
+        builder.Property(p => p.Address)
+            .HasMaxLength(250)
+            .IsRequired();
 
-        builder.Property(p => p.Location);
+        builder.Property(p => p.Location)
+            .HasMaxLength(100)
+            .IsRequired();
 
-        builder.Property(p => p.OriginalValue);
 
-        builder.Property(p => p.CurrentValue);
+        builder.Property(p => p.OriginalValue)
+            .HasPrecision(18, 2)
+            .IsRequired();
 
-        builder.Property(p => p.AvailableShares);
+        builder.Property(p => p.CurrentValue)
+            .HasPrecision(18, 2)
+            .IsRequired();
 
-        builder.Property(p => p.SharePrice);
+        builder.Property(p => p.AvailableShares)
+            .HasDefaultValue(20000)
+            .HasPrecision(18, 2)
+            .IsRequired();
 
+        builder.Property(p => p.SharePrice)
+            .HasPrecision(18, 2)
+            .IsRequired();
+
+        // Unique Constraint on Name and Address
+        builder.HasIndex(p => p.Name)
+            .IsUnique();
+
+        builder.HasIndex(p => p.Address)
+            .IsUnique();
         builder.Property(p => p.CreatedDateTime)
             .HasDefaultValueSql("datetime('now', 'localtime')") // Converts to local timezone
             .ValueGeneratedOnAdd()
@@ -56,7 +80,7 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
             .ValueGeneratedOnAdd()
             .IsRequired();
     }
-    
+
 
 
 }
