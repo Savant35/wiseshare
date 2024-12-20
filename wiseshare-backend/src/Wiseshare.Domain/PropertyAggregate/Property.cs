@@ -37,4 +37,9 @@ public sealed class Property : AggregateRoot<PropertyId, Guid>{
         return new Property(name, address,location,originalValue, currentValue,sharePrice,availableShares,description);
 
     }
+    #pragma warning disable CS8618 //disable warning for non-nullable since i have a nullable value in constructor
+    private Property()
+    {
+    }
+#pragma warning restore CS8618
 }

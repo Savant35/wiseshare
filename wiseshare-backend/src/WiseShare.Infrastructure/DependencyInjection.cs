@@ -6,12 +6,12 @@ using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
 using Wiseshare.Application.services;
 using Wiseshare.Application.services.UserServices;
-using WiseShare.Application.Authentication;
+using Wiseshare.Application.Services;
 using WiseShare.Application.Common.Interfaces.Services;
 using WiseShare.Infrastructure.Authentication;
 using WiseShare.Infrastructure.Persistence;
 using WiseShare.Infrastructure.Persistence.Repositories;
-using WiseShare.Infrastructure.Repository;
+using WiseShare.Infrastructure.Persistence.Repositories.PropertyRepository;
 using WiseShare.Infrastructure.Services;
 
 namespace WiseShare.Infrastructure;
@@ -23,7 +23,7 @@ public static class DependencyInjection
          ConfigurationManager configuration)
     {
         // Use the in-memory repository for property (testing)
-        services.AddSingleton<IPropertyRepository, InMemoryPropertyRepository>();
+        //services.AddSingleton<IPropertyRepository, InMemoryPropertyRepository>();
 
         // Use the database-backed repository for user (real DB)
         services.AddDbContext<WiseShareDbContext>(options =>
@@ -33,6 +33,10 @@ public static class DependencyInjection
         // Register user repository for DB interactions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserService, UserService>();
+
+        services.AddScoped<IPropertyRepository, PropertyRepository>();
+        services.AddScoped<IPropertyService, PropertyService>();
+
 
         // Authentication and JWT - Change the lifetime to Scoped
         services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));

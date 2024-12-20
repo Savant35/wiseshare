@@ -1,5 +1,4 @@
 using FluentResults;
-using Microsoft.EntityFrameworkCore;
 using Wiseshare.Application.Repository;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
