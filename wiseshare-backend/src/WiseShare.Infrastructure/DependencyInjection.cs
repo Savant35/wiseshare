@@ -37,6 +37,8 @@ public static class DependencyInjection
         services.AddScoped<IPropertyRepository, PropertyRepository>();
         services.AddScoped<IPropertyService, PropertyService>();
 
+        services.AddScoped<IWalletRepository, WalletRepository>();
+        services.AddScoped<IWalletService, WalletService>();
 
         // Authentication and JWT - Change the lifetime to Scoped
         services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));

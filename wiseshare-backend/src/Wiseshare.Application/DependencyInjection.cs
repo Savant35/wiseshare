@@ -12,6 +12,8 @@ public static class DependencyInjection
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         //services.AddSingleton<IPropertyService, PropertyService>();
         services.AddScoped<IPropertyService, PropertyService>();
+
+        services.AddScoped<IWalletService, WalletService>();
         return services;
     }
 }

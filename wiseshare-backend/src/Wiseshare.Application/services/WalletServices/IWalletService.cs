@@ -10,4 +10,5 @@ public interface IWalletService
     public Result<Wallet> GetWalletById(WalletId walletId);
     public Result<Wallet> GetWalletByUserId(UserId userId);
     public Result Update(Wallet wallet);
+    public Result Insert(Wallet wallet);
 }

@@ -1,20 +1,22 @@
 using FluentResults;
 using Wiseshare.Application.Common.Interfaces.Authentication;
-using Wiseshare.Application.Repository;
 using Wiseshare.Application.services;
-using Wiseshare.Application.services.UserServices;
+using Wiseshare.Application.Services;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
+using Wiseshare.Domain.WalletAggregate;
 using WiseShare.Application.Authentication;
 
 public class AuthenticationService : IAuthenticationService
 {
     private readonly IUserService _userService;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IWalletService _walletService;
 
-    public AuthenticationService(IUserService userService, IJwtTokenGenerator jwtTokenGenerator)
+    public AuthenticationService(IUserService userService, IWalletService walletService, IJwtTokenGenerator jwtTokenGenerator)
     {
         _userService = userService;
+        _walletService = walletService;
         _jwtTokenGenerator = jwtTokenGenerator;
     }
 
@@ -23,18 +25,25 @@ public class AuthenticationService : IAuthenticationService
     {
         // Create a new user
         var user = User.Create(firstName, lastName, email, phone, password);
+        var wallet = Wallet.Create((UserId)user.Id);
 
         // Attempt to save the user using UserService
         var insertResult = _userService.Insert(user);
+        var insertResult2 = _walletService.Insert(wallet);
 
         // Check if the insertion failed
-        if (insertResult.IsFailed)
+        if (insertResult.IsFailed || insertResult2.IsFailed)
         {
             // Propagate the failure
-            return Result.Fail(insertResult.Errors);
+            return Result.Fail("User Creation failed");
         }
 
         // Return success if the user was inserted successfully
+        //testing
+       /* Console.WriteLine("wallet Balance : " + wallet.Balance);
+        Console.WriteLine("wallet id: " + wallet.Id);
+        Console.WriteLine("user id: " + user.Id);
+        */
         return Result.Ok();
     }
 
