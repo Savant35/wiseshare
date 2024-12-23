@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
 using Wiseshare.Application.services;
+using Wiseshare.Application.services.PortfolioServices;
 using Wiseshare.Application.services.UserServices;
 using Wiseshare.Application.Services;
 using WiseShare.Application.Common.Interfaces.Services;
@@ -39,6 +40,9 @@ public static class DependencyInjection
 
         services.AddScoped<IWalletRepository, WalletRepository>();
         services.AddScoped<IWalletService, WalletService>();
+
+         services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+        services.AddScoped<IPortfolioService, PortfolioService>();
 
         // Authentication and JWT - Change the lifetime to Scoped
         services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));
