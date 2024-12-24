@@ -1,15 +1,15 @@
-using FluentResults; 
-using Moq; 
+using FluentResults;
+using Moq;
 using Wiseshare.Application.Repository;
 using Wiseshare.Application.Services;
-using Wiseshare.Domain.PropertyAggregate; 
-using Wiseshare.Domain.PropertyAggregate.ValueObjects; 
+using Wiseshare.Domain.PropertyAggregate;
+using Wiseshare.Domain.PropertyAggregate.ValueObjects;
 
 /// Unit tests for the PropertyService class.
 public class PropertyServiceTests
 {
-    private readonly Mock<IPropertyRepository> _propertyRepositoryMock; 
-    private readonly IPropertyService _propertyService; 
+    private readonly Mock<IPropertyRepository> _propertyRepositoryMock;
+    private readonly IPropertyService _propertyService;
 
     /// Constructor for setting up the PropertyService with a mocked repository.
     public PropertyServiceTests()
@@ -24,7 +24,7 @@ public class PropertyServiceTests
     {
         // Arrange
         var propertyId = PropertyId.CreateUnique();
-        var property = Property.Create("123 Elm Street", "New York", 450000, 1000, 300);
+        var property = Property.Create("lakehouse", "123 Elm Street", "New York", 45000, "house by the lake");
         _propertyRepositoryMock.Setup(x => x.GetPropertyById(propertyId))
             .Returns(Result.Ok(property));
 
@@ -62,8 +62,8 @@ public class PropertyServiceTests
         var location = "New York";
         var properties = new List<Property>
         {
-            Property.Create("123 Elm Street", "New York", 450000, 1000, 300),
-            Property.Create("456 Oak Avenue", "New York", 500000, 1200, 250)
+             Property.Create("lakehouse","123 Elm Street", "New York",45000,"house by the lake" ),
+            Property.Create("lakehouse2","456 Oak Avenue", "New York", 500000,"lakehouse by the beach")
         };
         _propertyRepositoryMock.Setup(x => x.GetPropertyByLocation(location))
             .Returns(properties);
@@ -83,7 +83,7 @@ public class PropertyServiceTests
     public void Test_GetPropertiesByLocation_WhenLocationIsInvalid()
     {
         // Arrange
-        var properties = new List<Property > { };
+        var properties = new List<Property> { };
         var location = "fake location";
         _propertyRepositoryMock.Setup(x => x.GetPropertyByLocation(location))
        .Returns(Result.Ok<IEnumerable<Property>>(properties));
@@ -102,7 +102,7 @@ public class PropertyServiceTests
     public void Test_InsertProperty_WhenValid()
     {
         // Arrange
-        var property = Property.Create("123 Elm Street", "New York", 450000, 1000, 300);
+        var property = Property.Create("lakehouse", "123 Elm Street", "New York", 45000, "house by the lake");
         _propertyRepositoryMock.Setup(x => x.Insert(property))
         .Returns(Result.Ok());
 
@@ -118,7 +118,7 @@ public class PropertyServiceTests
     public void Test_UpdateProperty_WhenValid()
     {
         // Arrange
-        var property = Property.Create("123 Elm Street", "New York", 450000, 1000, 300);
+        var property = Property.Create("lakehouse", "123 Elm Street", "New York", 45000, "house by the lake");
         _propertyRepositoryMock.Setup(x => x.Update(property))
             .Returns(Result.Ok());
 
@@ -135,7 +135,7 @@ public class PropertyServiceTests
     {
         // Arrange
         var address = "123 Elm Street";
-        var property = Property.Create("123 Elm Street", "New York", 450000, 1000, 300);
+        var property = Property.Create("lakehouse", "123 Elm Street", "New York", 45000, "house by the lake");
         _propertyRepositoryMock.Setup(x => x.GetPropertyByAddress(address))
             .Returns(Result.Ok(property));
 
@@ -163,4 +163,72 @@ public class PropertyServiceTests
         Assert.True(result.IsFailed);
         Assert.Equal("Property not found", result.Errors.First().Message);
     }
+    [Fact]
+    public void Test_GetPropertyByName_WhenNameIsValid()
+    {
+        // Arrange
+        var name = "lakehouse";
+        var property = Property.Create("lakehouse", "123 Elm Street", "New York", 45000, "house by the lake");
+        _propertyRepositoryMock.Setup(x => x.GetPropertyByName(name))
+            .Returns(Result.Ok(property));
+
+        // Act
+        var result = _propertyService.GetPropertyByName(name);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(name, result.Value.Name);
+    }
+    [Fact]
+    public void Test_GetPropertyByName_WhenNameIsInvalid()
+    {
+        // Arrange
+        var name = "invalid_name";
+        _propertyRepositoryMock.Setup(x => x.GetPropertyByName(name))
+            .Returns(Result.Fail<Property>("Property not found"));
+
+        // Act
+        var result = _propertyService.GetPropertyByName(name);
+
+        // Assert
+        Assert.True(result.IsFailed);
+        Assert.Equal("Property not found", result.Errors.First().Message);
+    }
+
+    [Fact]
+    public void Test_GetProperties_WhenPropertiesExist()
+    {
+        // Arrange
+        var properties = new List<Property>{
+        Property.Create("lakehouse", "123 Elm Street", "New York", 45000, "house by the lake"),
+        Property.Create("beachhouse", "456 Ocean Drive", "California", 750000, "beachfront property")
+    };
+        _propertyRepositoryMock.Setup(x => x.GetProperties())
+          .Returns(Result.Ok<IEnumerable<Property>>(properties));
+
+        // Act
+        var result = _propertyService.GetProperties();
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(2, result.Value.Count());
+        Assert.Contains(result.Value, p => p.Name == "lakehouse");
+        Assert.Contains(result.Value, p => p.Name == "beachhouse");
+    }
+    [Fact]
+    public void Test_GetProperties_WhenNoPropertiesExist()
+    {
+        // Arrange
+        var properties = new List<Property>();
+        _propertyRepositoryMock.Setup(x => x.GetProperties())
+          .Returns(Result.Ok<IEnumerable<Property>>(properties));
+
+        // Act
+        var result = _propertyService.GetProperties();
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Empty(result.Value);
+    }
+
 }

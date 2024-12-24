@@ -11,8 +11,8 @@ using WiseShare.Infrastructure.Persistence;
 namespace WiseShare.Infrastructure.Migrations
 {
     [DbContext(typeof(WiseShareDbContext))]
-    [Migration("20241224000420_portfolio")]
-    partial class portfolio
+    [Migration("20241224164015_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

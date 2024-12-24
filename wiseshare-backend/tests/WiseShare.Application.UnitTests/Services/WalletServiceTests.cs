@@ -1,10 +1,10 @@
 using FluentResults;
 using Moq;
-using WiseShare.Application.Repository;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 using Wiseshare.Domain.WalletAggregate;
 using Wiseshare.Domain.WalletAggregate.ValueObjects;
 using Wiseshare.Application.Services;
+using Wiseshare.Application.Repository;
 
 public class WalletServiceTests
 {
@@ -22,7 +22,7 @@ public class WalletServiceTests
         // Arrange
         var userId = UserId.CreateUnique();
         var walletId = WalletId.CreateUnique(userId);
-        var wallet = Wallet.Create(userId, DateTime.UtcNow, DateTime.UtcNow);
+        var wallet = Wallet.Create(userId);
         _walletRepositoryMock.Setup(x => x.GetWalletById(walletId))
             .Returns(Result.Ok(wallet));
 
@@ -60,7 +60,7 @@ public class WalletServiceTests
     {
         // Arrange
         var userId = UserId.CreateUnique();
-        var wallet = Wallet.Create(userId, DateTime.UtcNow, DateTime.UtcNow);
+        var wallet = Wallet.Create(userId);
 
         _walletRepositoryMock.Setup(x => x.GetWalletByUserId(userId))
             .Returns(Result.Ok(wallet));
@@ -98,7 +98,7 @@ public class WalletServiceTests
     {
         // Arrange
         var userId = UserId.CreateUnique();
-        var wallet = Wallet.Create(userId, DateTime.UtcNow, DateTime.UtcNow);
+        var wallet = Wallet.Create(userId);
 
         _walletRepositoryMock.Setup(x => x.Update(wallet))
             .Returns(Result.Ok());
@@ -115,8 +115,7 @@ public class WalletServiceTests
     {
         // Arrange
         var userId = UserId.CreateUnique();
-        var wallet = Wallet.Create(userId, DateTime.UtcNow, DateTime.UtcNow);
-
+        var wallet = Wallet.Create(userId);
         _walletRepositoryMock.Setup(x => x.Update(wallet))
             .Returns(Result.Fail("Failed to update wallet."));
 
@@ -127,4 +126,39 @@ public class WalletServiceTests
         Assert.True(result.IsFailed);
         Assert.Equal("Failed to update wallet.", result.Errors.First().Message);
     }
+    [Fact]
+    public void Test_Insert_WhenWalletIsValid()
+    {
+        // Arrange
+        var userId = UserId.CreateUnique();
+        var wallet = Wallet.Create(userId);
+
+        _walletRepositoryMock.Setup(x => x.Insert(wallet))
+            .Returns(Result.Ok());
+
+        // Act
+        var result = _walletService.Insert(wallet);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+    }
+
+    [Fact]
+    public void Test_Insert_WhenWalletIsInvalid()
+    {
+        // Arrange
+        var userId = UserId.CreateUnique();
+        var wallet = Wallet.Create(userId);
+
+        _walletRepositoryMock.Setup(x => x.Insert(wallet))
+            .Returns(Result.Fail("Failed to insert wallet."));
+
+        // Act
+        var result = _walletService.Insert(wallet);
+
+        // Assert
+        Assert.True(result.IsFailed);
+        Assert.Equal("Failed to insert wallet.", result.Errors.First().Message);
+    }
+
 }
