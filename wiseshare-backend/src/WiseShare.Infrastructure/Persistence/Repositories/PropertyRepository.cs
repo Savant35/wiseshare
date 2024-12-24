@@ -3,7 +3,7 @@ using Wiseshare.Application.Repository;
 using Wiseshare.Domain.PropertyAggregate;
 using Wiseshare.Domain.PropertyAggregate.ValueObjects;
 
-namespace WiseShare.Infrastructure.Persistence.Repositories.PropertyRepository;
+namespace WiseShare.Infrastructure.Persistence.Repositories;
 public class PropertyRepository : IPropertyRepository
 {
     private readonly WiseShareDbContext _dbContext;

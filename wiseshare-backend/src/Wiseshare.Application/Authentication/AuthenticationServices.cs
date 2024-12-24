@@ -27,32 +27,34 @@ public class AuthenticationService : IAuthenticationService
     // Handles user registration
     public Result Register(string firstName, string lastName, string email, string phone, string password)
     {
-        // Create a new user
+        // Create the objects 
         var user = User.Create(firstName, lastName, email, phone, password);
+        var insertResult = _userService.Insert(user);
+
+         if (insertResult.IsFailed)
+        {
+            //if user result fails return error
+            return insertResult;
+        }
         var wallet = Wallet.Create((UserId)user.Id);
         var portfolio = Portfolio.Create((UserId)user.Id);
 
+
         // Attempt to save the user using UserService
-        var insertResult = _userService.Insert(user);
         var insertResult2 = _walletService.Insert(wallet);
         var insertResult3 = _portfolioService.Insert(portfolio);
 
-        // Check if the insertion failed
-        if (insertResult.IsFailed || insertResult2.IsFailed || insertResult3.IsFailed)
-        {
-            // Propagate the failure
-            return Result.Fail("User Creation failed");
-        }
+
 
         // Return success if the user was inserted successfully
-        //testing
+        /*testing
         Console.WriteLine("wallet Balance : " + wallet.Balance);
         Console.WriteLine("wallet id: " + wallet.Id);
-        Console.WriteLine("");
-        Console.WriteLine(portfolio);
         Console.WriteLine("user id: " + user.Id);
-        Console.WriteLine("portfolioId");
+        Console.WriteLine("portfolioId" + portfolio.Id);
+        */
         return Result.Ok();
+
     }
 
 
