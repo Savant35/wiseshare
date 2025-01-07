@@ -1,7 +1,6 @@
 using FluentResults;
 using Moq;
 using Wiseshare.Application.Common.Interfaces.Authentication;
-using Wiseshare.Application.Repository;
 using Wiseshare.Application.services;
 using Wiseshare.Application.services.PortfolioServices;
 using Wiseshare.Application.Services;
