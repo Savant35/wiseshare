@@ -1,3 +1,4 @@
+using EntityFramework.Exceptions.Common;
 using FluentResults;
 using Wiseshare.Application.Repository;
 using Wiseshare.Application.services;
@@ -43,7 +44,25 @@ public class PropertyService : IPropertyService
 
     public Result Insert(Property property)
     {
+        if (property.OriginalValue < 0) return Result.Fail("Property Value cannot be negative");
+        try{
         return _propertyRepository.Insert(property);
+        } 
+         catch (UniqueConstraintException e)
+        {
+            var message = e.InnerException?.Message ?? e.Message;
+            //Console.WriteLine(message);
+
+            if (message.Contains("Address"))
+            {
+                return Result.Fail("A Property Has already been listed at that address");
+            }
+            else if (message.Contains("Name"))
+            {
+                return Result.Fail("Name for Property is alreayd in use ");
+            }
+            return Result.Fail("Property Registration failed DB Error");
+        }
     }
 
     public Result Update(Property property)

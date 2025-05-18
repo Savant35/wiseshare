@@ -1,5 +1,4 @@
 using FluentResults;
-using Microsoft.EntityFrameworkCore;
 using Wiseshare.Application.Repository;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
@@ -75,6 +74,7 @@ public class UserRepository : IUserRepository
         if (existingUser is null) return Result.Fail("User not found.");
 
         // Manually update fields
+        _dbContext.Update(user);
         _dbContext.SaveChanges();
         return Result.Ok();
     }

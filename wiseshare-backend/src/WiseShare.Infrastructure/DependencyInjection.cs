@@ -1,14 +1,17 @@
+using EntityFramework.Exceptions.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
-using WiseShare.Application.Authentication;
+using Wiseshare.Application.services;
+using Wiseshare.Application.services.UserServices;
+using Wiseshare.Application.Services;
 using WiseShare.Application.Common.Interfaces.Services;
 using WiseShare.Infrastructure.Authentication;
 using WiseShare.Infrastructure.Persistence;
 using WiseShare.Infrastructure.Persistence.Repositories;
-using WiseShare.Infrastructure.Repository;
+using WiseShare.Infrastructure.Persistence.Repositories.PropertyRepository;
 using WiseShare.Infrastructure.Services;
 
 namespace WiseShare.Infrastructure;
@@ -20,14 +23,22 @@ public static class DependencyInjection
          ConfigurationManager configuration)
     {
         // Use the in-memory repository for property (testing)
-        services.AddSingleton<IPropertyRepository, InMemoryPropertyRepository>();
+        //services.AddSingleton<IPropertyRepository, InMemoryPropertyRepository>();
 
         // Use the database-backed repository for user (real DB)
         services.AddDbContext<WiseShareDbContext>(options =>
-            options.UseSqlite(configuration.GetConnectionString("WiseShareDatabase")));
+            options.UseSqlite(configuration.GetConnectionString("WiseShareDatabase"))
+            .UseExceptionProcessor());
 
         // Register user repository for DB interactions
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService>();
+
+        services.AddScoped<IPropertyRepository, PropertyRepository>();
+        services.AddScoped<IPropertyService, PropertyService>();
+
+        services.AddScoped<IWalletRepository, WalletRepository>();
+        services.AddScoped<IWalletService, WalletService>();
 
         // Authentication and JWT - Change the lifetime to Scoped
         services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));

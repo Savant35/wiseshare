@@ -1,6 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Wiseshare.Application.services;
-using Wiseshare.Application.services.UserServices;
 using Wiseshare.Application.Services;
 using WiseShare.Application.Authentication;
 
@@ -12,7 +10,10 @@ public static class DependencyInjection
     {
         //services
         services.AddScoped<IAuthenticationService, AuthenticationService>();
-        services.AddSingleton<IPropertyService, PropertyService>();
+        //services.AddSingleton<IPropertyService, PropertyService>();
+        services.AddScoped<IPropertyService, PropertyService>();
+
+        services.AddScoped<IWalletService, WalletService>();
         return services;
     }
 }

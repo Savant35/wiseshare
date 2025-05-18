@@ -5,8 +5,5 @@ public record UpdatePropertyRequest(
     string Address,
     string Location,
     double OriginalValue,
-    double CurrentValue,
-    double SharePrice,
-    int AvailableShares,
     string Description
 );

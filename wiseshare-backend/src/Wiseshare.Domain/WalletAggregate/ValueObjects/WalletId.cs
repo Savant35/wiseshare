@@ -10,18 +10,11 @@ public sealed class WalletId : AggregateRootId<string>
     {
     }
 
-    // Private constructor that generates WalletId based on UserId  If userId.Value is "User123", then $"Wallet_{userId.Value}" evaluates 
-    //to "Wallet_User123".This ensures that each WalletId is uniquely tied to a specific user, following a consistent naming convention.
-    private WalletId(UserId userId)
-        : base($"Wallet_{userId.Value}") 
-    {
-    }
-
     // Factory method to create WalletId using UserId
     public static WalletId CreateUnique(UserId userId)
     {
-        // Validate that userId is not null or invalid if necessary
-        return new WalletId(userId);
+        // Generates a unique WalletId by appending "Wallet_" to the UserId value
+        return new WalletId($"Wallet_{userId.Value}");
     }
 
     // Factory method to create WalletId using a raw string value

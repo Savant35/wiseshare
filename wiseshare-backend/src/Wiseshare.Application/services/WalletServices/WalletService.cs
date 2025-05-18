@@ -1,5 +1,5 @@
 using FluentResults;
-using WiseShare.Application.Repository;
+using Wiseshare.Application.Repository;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 using Wiseshare.Domain.WalletAggregate;
 using Wiseshare.Domain.WalletAggregate.ValueObjects;
@@ -25,8 +25,14 @@ public class WalletService : IWalletService
         return _walletRepository.GetWalletByUserId(userId);
     }
 
+    public Result Insert(Wallet wallet)
+    {
+        return _walletRepository.Insert(wallet);
+    }
+
     public Result Update(Wallet wallet)
     {
         return _walletRepository.Update(wallet);
     }
 }
+

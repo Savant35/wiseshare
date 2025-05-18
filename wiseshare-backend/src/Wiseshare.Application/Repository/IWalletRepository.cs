@@ -3,7 +3,7 @@ using Wiseshare.Domain.UserAggregate.ValueObjects;
 using Wiseshare.Domain.WalletAggregate;
 using Wiseshare.Domain.WalletAggregate.ValueObjects;
 
-namespace WiseShare.Application.Repository;
+namespace Wiseshare.Application.Repository;
 
 public interface IWalletRepository {
     public Result<Wallet> GetWalletById(WalletId walletId); // Get wallet by wallet ID

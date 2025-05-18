@@ -39,14 +39,25 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.Property(u => u.Password)
             .HasMaxLength(100);
             //.IsRequired();
+
+        builder.Property(u => u.CreatedDateTime)
+            .HasDefaultValueSql("datetime('now', 'localtime')") // Converts to local timezone
+            .ValueGeneratedOnAdd()
+            .IsRequired();
+
+        // Set default value for UpdatedDateTime
+        builder.Property(u => u.UpdatedDateTime)
+            //.HasDefaultValueSql("CURRENT_TIMESTAMP") // Automatically set to current UTC time
+            .HasDefaultValueSql("datetime('now', 'localtime')") // Converts to local timezone
+            .ValueGeneratedOnAdd()
+            .IsRequired();
             
-        /* Indexes for better query performance and uniqueness
+        // Indexes for better query performance and uniqueness
 
         builder.HasIndex(u => u.Email)
             .IsUnique(); // Enforces unique Email
 
         builder.HasIndex(u => u.Phone)
             .IsUnique(); // Enforces unique Phone
-            */
     }
 }

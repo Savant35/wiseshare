@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Wiseshare.Domain.PropertyAggregate;
 using Wiseshare.Domain.UserAggregate;
+using Wiseshare.Domain.WalletAggregate;
 
 namespace WiseShare.Infrastructure.Persistence;
 
@@ -10,6 +12,8 @@ public class WiseShareDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Property> Properties { get; set; } = null!;
+    public DbSet<Wallet> Wallets{ get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

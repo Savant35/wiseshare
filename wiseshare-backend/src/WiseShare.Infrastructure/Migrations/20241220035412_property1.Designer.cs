@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WiseShare.Infrastructure.Persistence;
 
@@ -10,9 +11,11 @@ using WiseShare.Infrastructure.Persistence;
 namespace WiseShare.Infrastructure.Migrations
 {
     [DbContext(typeof(WiseShareDbContext))]
-    partial class WiseShareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220035412_property1")]
+    partial class property1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -72,10 +75,7 @@ namespace WiseShare.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Address")
-                        .IsUnique();
-
-                    b.HasIndex("Name")
+                    b.HasIndex("Name", "Address")
                         .IsUnique();
 
                     b.ToTable("Properties", (string)null);
@@ -130,39 +130,6 @@ namespace WiseShare.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("Wiseshare.Domain.WalletAggregate.Wallet", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal>("Balance")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(18, 2)
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue(0m);
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime')");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime')");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Wallets_UserId");
-
-                    b.ToTable("Wallets", (string)null);
                 });
 #pragma warning restore 612, 618
         }

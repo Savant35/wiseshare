@@ -28,9 +28,6 @@ public class PropertyController : ControllerBase
             address: request.Address,
             location: request.Location,
             originalValue: request.OriginalValue,
-            currentValue: request.OriginalValue,
-            sharePrice: request.SharePrice,
-            availableShares: request.AvailableShares,
             description: request.Description);
 
         var result = _propertyService.Insert(property);
