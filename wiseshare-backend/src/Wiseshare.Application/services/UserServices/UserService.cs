@@ -43,12 +43,7 @@ public class UserService : IUserService
     public Result Insert(User user)
     {
      
-        //validate password strength
-        string passwordPatter = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$";
-        if (!Regex.IsMatch(user.Password, passwordPatter))
-        {
-            return Result.Fail("password does not meet strength requirements requirements: length 12, 1 or more uppercase and lowercase, 1 or more digits and special characters((@$!%*#?&))");
-        }
+      
 
         // Validate email format
         try

@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using FluentResults;
+using Sodium;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.services;
 using Wiseshare.Application.services.PortfolioServices;
@@ -28,7 +30,16 @@ public class AuthenticationService : IAuthenticationService
     public Result Register(string firstName, string lastName, string email, string phone, string password)
     {
         // Create the objects 
-        var user = User.Create(firstName, lastName, email, phone, password);
+          //validate password strength
+        string passwordPatter = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$";
+        if (!Regex.IsMatch(password, passwordPatter))
+        {
+            return Result.Fail("password does not meet strength requirements requirements: length 12, 1 or more uppercase and lowercase, 1 or more digits and special characters((@$!%*#?&))");
+        }
+
+        string hashedPassword = PasswordHash.ArgonHashString(password); //has
+        var user = User.Create(firstName, lastName, email, phone, hashedPassword);
+
         var insertResult = _userService.Insert(user);
 
          if (insertResult.IsFailed)
@@ -71,8 +82,10 @@ public class AuthenticationService : IAuthenticationService
 
         var user = userResult.Value;
 
+        bool isValid = PasswordHash.ArgonHashStringVerify(user.Password,password);
+
         // Validate the password
-        if (user.Password != password)
+        if (!isValid)
         {
             return Result.Fail<(string Token, string FirstName, string LastName)>("Invalid email or password.");
         }
