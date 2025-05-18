@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using EntityFramework.Exceptions.Common;
@@ -14,8 +13,8 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository)
-    {
+    public UserService (IUserRepository userRepository){ 
+
         _userRepository = userRepository;
     }
 

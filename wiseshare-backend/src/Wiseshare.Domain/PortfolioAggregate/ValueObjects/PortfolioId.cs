@@ -10,7 +10,7 @@ public sealed class PortfolioId : AggregateRootId<string> {
     private PortfolioId(UserId userId)
         : base($"Portfolio_{userId.Value}") {}
 
-    public static PortfolioId createUnique(UserId userId){
+    public static PortfolioId CreateUnique(UserId userId){
         return new PortfolioId(userId);
     }
     public static PortfolioId Create(string value){

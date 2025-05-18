@@ -1,6 +1,7 @@
 using Wiseshare.Domain.Common.Models;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 using wiseshare.Domain.PortfolioAggregate.ValueObjects;
+using Wiseshare.Domain.InvestmentAggregate;
 
 namespace Wiseshare.domain.PortfolioAggregate;
 
@@ -20,6 +21,7 @@ public sealed class Portfolio : AggregateRoot<PortfolioId, string>
         Investment = [];
         TotalInvestmentAmount = 0;
         TotalReturns = 0;
+         Id = PortfolioId.CreateUnique(userId);
     }
 
     public static Portfolio Create(UserId userId)

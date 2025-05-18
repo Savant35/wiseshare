@@ -4,7 +4,7 @@ using Wiseshare.Application.Repository;
 using Wiseshare.domain.PortfolioAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 
-namespace WiseShare.Infrastructure.Persistence.Repositories.PropertyRepository;
+namespace WiseShare.Infrastructure.Persistence.Repositories;
 
 public class PortfolioRepository : IPortfolioRepository
 {
