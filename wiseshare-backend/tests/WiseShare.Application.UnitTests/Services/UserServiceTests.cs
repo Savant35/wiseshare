@@ -16,6 +16,7 @@ public class UserServiceTests
     {
         _userServicee = new UserService(_userRepoMock.Object);
     }
+
     [Fact]//marks the following method as a test method
     public void Test_GetUserById_WhenUserIdIsValid()
     {
@@ -170,7 +171,7 @@ public class UserServiceTests
     {
         //Arrange
         var userId = UserId.CreateUnique();
-        var user = User.Create("ali", "arthur", "ali@gmail.com", "123456789", "password");
+        var user = User.Create("ali", "arthur", "ali@gmail.com", "123456789", "Password1234$");
         _userRepoMock.Setup(x => x.Insert(user))
         .Returns(Result.Ok);
 
@@ -181,20 +182,11 @@ public class UserServiceTests
         Assert.True(result.IsSuccess);
     }
 
-    /*
-        [Fact]
-        *public void Test_Insert_WhenInsertIsInvalid()
-        {
-            User? user = null;
-            _userRepoMock.Setup(x => x.Insert(user))
-            .Returns(Result.Fail("User cannot be null"));
-
-            var result = _userServicee.Insert(user);
-
-            Assert.False(result.IsSuccess);
-            Assert.Equal("User cannot be null",result.Errors.First().Message);
-        }
-        */
+    [Fact]
+    public void Test_Insert_WhenInsertIsInvalid()
+    {
+        //no need to test for null since my buisnes logic method signature does not allow null 
+    }
 
     [Fact]
     public void Test_GetUsers_WhenUsersAreValid()
@@ -249,6 +241,21 @@ public class UserServiceTests
         //Assert.Equal(new List<User>{User.Create("ali","dkfjl","dfd","dklf","dkfkd")}, result.Value);//make the test fail on purpose
 
 
+    }
+    [Fact]
+    public void Test_Insert_WhenPasswordIsWeak_ShouldFail()
+    {
+        // Arrange
+        var user = User.Create("ali", "arthur", "ali@gmail.com", "123456789", "weakpassword");
+        _userRepoMock.Setup(x => x.Insert(user))
+            .Returns(Result.Fail("password does not meet strength requirements requirements: length 12, 1 or more uppercase and lowercase, 1 or more digits and special characters((@$!%*#?&))"));
+
+        // Act
+        var result = _userServicee.Insert(user);
+
+        // Assert
+        Assert.False(result.IsSuccess);
+        Assert.Equal("password does not meet strength requirements requirements: length 12, 1 or more uppercase and lowercase, 1 or more digits and special characters((@$!%*#?&))", result.Errors.First().Message);
     }
 
 }

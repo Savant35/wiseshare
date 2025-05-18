@@ -2,20 +2,25 @@ using FluentResults;
 using Moq;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Application.Repository;
+using Wiseshare.Application.services;
+using Wiseshare.Application.services.PortfolioServices;
+using Wiseshare.Application.Services;
 using Wiseshare.Domain.UserAggregate;
 using WiseShare.Application.Authentication;
 
 public class AuthenticationServiceTests
 {
     private readonly Mock<IJwtTokenGenerator> _jwtTokenGeneratorMock = new Mock<IJwtTokenGenerator>();
-    private readonly Mock<IUserRepository> _userRepoMock = new Mock<IUserRepository>();
+   private readonly Mock<IUserService> _userServiceMock = new Mock<IUserService>();
+
+     private readonly Mock<IWalletService> _walletServiceMock = new Mock<IWalletService>();
+    private readonly Mock<IPortfolioService> _portfolioServiceMock = new Mock<IPortfolioService>();
     private readonly IAuthenticationService _authenticationService;
 
     public AuthenticationServiceTests()
     {
-        _authenticationService = new AuthenticationService(_userRepoMock.Object, _jwtTokenGeneratorMock.Object);
+        _authenticationService = new AuthenticationService(_userServiceMock.Object, _walletServiceMock.Object, _portfolioServiceMock.Object, _jwtTokenGeneratorMock.Object);
     }
-    /*
     [Fact]
     public void Test_Register_WhenValidInput_ShouldSucceed()
     {
@@ -29,8 +34,8 @@ public class AuthenticationServiceTests
         var newUser = User.Create(firstName, lastName, email, phone, password);
 
         // Mock the repository to simulate successful insertion
-        _userRepoMock.Setup(x => x.Insert(It.IsAny<User>()))
-                     .Returns(Result.Ok());
+        _userServiceMock.Setup(x => x.Insert(It.IsAny<User>()))
+         .Returns(Result.Ok());
 
         // Act
         var result = _authenticationService.Register(firstName, lastName, email, phone, password);
@@ -38,9 +43,9 @@ public class AuthenticationServiceTests
         // Assert
         Assert.True(result.IsSuccess);
         //Assert.Empty(result.Errors);
-        _userRepoMock.Verify(x => x.Insert(It.IsAny<User>()), Times.Once); // Ensure Insert was called once
-    }*/
-/*
+        _userServiceMock.Verify(x => x.Insert(It.IsAny<User>()), Times.Once); // Ensure Insert was called once
+    }
+
     [Fact]
     public void Test_Register_WhenEmailAlreadyExists_ShouldFail()
     {
@@ -52,18 +57,18 @@ public class AuthenticationServiceTests
         var password = "securePassword";
 
         // Mock the repository to simulate a duplicate email
-        _userRepoMock.Setup(x => x.Insert(It.IsAny<User>()))
+        _userServiceMock.Setup(x => x.Insert(It.IsAny<User>()))
                      .Returns(Result.Fail("User already exists."));
 
         // Act
         var result = _authenticationService.Register(firstName, lastName, email, phone, password);
 
         // Assert
-        Assert.False(result.IsFailed);
+        Assert.True(result.IsFailed);
         //Assert.Contains(result.Errors, e => e.Message == "User already exists.");
-        _userRepoMock.Verify(x => x.Insert(It.IsAny<User>()), Times.Once); // Ensure Insert was called once
+        _userServiceMock.Verify(x => x.Insert(It.IsAny<User>()), Times.Once); // Ensure Insert was called once
     }
-    */
+
 
     [Fact]
     public void Test_Login_WhenCredentialsAreValid()
@@ -72,7 +77,7 @@ public class AuthenticationServiceTests
         var email = "ali@gmail.com";
         var password = "password";
         var user = User.Create("Ali", "Arthur", email, "814-123-456", password);
-        _userRepoMock.Setup(x => x.GetUserByEmail(email))
+        _userServiceMock.Setup(x => x.GetUserByEmail(email))
         .Returns(Result.Ok(user));
         _jwtTokenGeneratorMock.Setup(x => x.GenerateToken(user))
         .Returns("generate-token");
@@ -91,7 +96,7 @@ public class AuthenticationServiceTests
         var email = "ali@gmail.com";
         var password = "password";
         var user = User.Create("Ali", "Arthur", email, "814-123-4567", password);
-        _userRepoMock.Setup(x => x.GetUserByEmail(email))
+        _userServiceMock.Setup(x => x.GetUserByEmail(email))
         .Returns(Result.Fail<User>("User not found"));
 
         var result = _authenticationService.Login(email, password);
@@ -108,7 +113,7 @@ public class AuthenticationServiceTests
         var email = "ali@gmail.com";
         var password = "password";
         var user = User.Create("Ali", "Arthur", email, "814-121-2134", password);
-        _userRepoMock.Setup(x => x.GetUserByEmail(email))
+        _userServiceMock.Setup(x => x.GetUserByEmail(email))
         .Returns(Result.Ok(user));
 
 

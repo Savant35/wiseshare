@@ -42,6 +42,7 @@ public class UserService : IUserService
 
     public Result Insert(User user)
     {
+     
         //validate password strength
         string passwordPatter = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$";
         if (!Regex.IsMatch(user.Password, passwordPatter))
