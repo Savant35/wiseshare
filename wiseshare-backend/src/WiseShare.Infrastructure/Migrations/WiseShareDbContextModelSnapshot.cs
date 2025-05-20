@@ -3,19 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WiseShare.Infrastructure.Persistence;
+using Wiseshare.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace WiseShare.Infrastructure.Migrations
+namespace Wiseshare.Infrastructure.Migrations
 {
-    [DbContext(typeof(WiseShareDbContext))]
-    partial class WiseShareDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(WiseshareDbContext))]
+    partial class WiseshareDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
 
             modelBuilder.Entity("Wiseshare.Domain.InvestmentAggregate.Investment", b =>
                 {
@@ -34,19 +34,70 @@ namespace WiseShare.Infrastructure.Migrations
                         .HasDefaultValue(0f);
 
                     b.Property<decimal>("InvestmentAmount")
-                        .ValueGeneratedOnAdd()
                         .HasPrecision(18, 2)
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsSellPending")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
+                    b.Property<decimal>("MarketValue")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("NumOfSharesPurchased")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("PendingSharesToSell")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("PortfolioId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("PropertyId")
                         .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("datetime('now', 'localtime')");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Investments", (string)null);
+                });
+
+            modelBuilder.Entity("Wiseshare.Domain.PaymentAggregate.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("datetime('now', 'localtime')");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("StripePaymentIntentId")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedDateTime")
                         .ValueGeneratedOnAddOrUpdate()
@@ -58,9 +109,7 @@ namespace WiseShare.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PortfolioId");
-
-                    b.ToTable("Investments", (string)null);
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Wiseshare.Domain.PropertyAggregate.Property", b =>
@@ -92,6 +141,16 @@ namespace WiseShare.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrls")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("InvestmentsEnabled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -142,10 +201,25 @@ namespace WiseShare.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("EmailVerifiedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FailedLoginAttempts")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(6)
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -160,6 +234,26 @@ namespace WiseShare.Infrastructure.Migrations
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue("User");
+
+                    b.Property<string>("SecurityAnswer")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SecurityQuestion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StripeAccountId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedDateTime")
@@ -221,20 +315,20 @@ namespace WiseShare.Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("datetime('now', 'localtime')");
 
+                    b.Property<decimal>("RealizedProfit")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT")
+                        .HasDefaultValue(0m);
+
                     b.Property<decimal>("TotalInvestmentAmount")
                         .ValueGeneratedOnAdd()
                         .HasPrecision(18, 2)
                         .HasColumnType("TEXT")
                         .HasDefaultValue(0m);
 
-                    b.Property<decimal>("TotalReturns")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(18, 2)
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue(0m);
-
                     b.Property<DateTime>("UpdatedDateTime")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("datetime('now', 'localtime')");
 
@@ -250,7 +344,10 @@ namespace WiseShare.Infrastructure.Migrations
                 {
                     b.HasOne("Wiseshare.domain.PortfolioAggregate.Portfolio", null)
                         .WithMany("Investment")
-                        .HasForeignKey("PortfolioId");
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Wiseshare.domain.PortfolioAggregate.Portfolio", b =>

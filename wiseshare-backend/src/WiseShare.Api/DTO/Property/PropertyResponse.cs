@@ -1,4 +1,4 @@
-namespace WiseShare.Api.DTO.Property;
+namespace Wiseshare.Api.DTO.Property;
 
 public record PropertyResponse(
     string Id, // PropertyId
@@ -9,7 +9,8 @@ public record PropertyResponse(
     double CurrentValue,
     double SharePrice,
     int AvailableShares,
-    string Description
+    string Description,
+     bool InvestmentsEnabled
     //DateTime CreatedDateTime,
     //DateTime UpdatedDateTime
 );

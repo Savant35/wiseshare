@@ -1,4 +1,4 @@
-namespace WiseShare.Api.DTO.Property;
+namespace Wiseshare.Api.DTO.Property;
 
 public record DeletePropertyResponse(
     string Message

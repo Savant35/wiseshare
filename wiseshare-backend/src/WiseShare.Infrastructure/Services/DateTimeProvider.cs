@@ -1,6 +1,6 @@
-using WiseShare.Application.Common.Interfaces.Services;
+using Wiseshare.Application.Common.Interfaces.Services;
 
-namespace WiseShare.Infrastructure.Services;
+namespace Wiseshare.Infrastructure.Services;
 
 public class DateTimeProvider : IDateTimeProvider{
     public DateTime UtcNow => DateTime.UtcNow;

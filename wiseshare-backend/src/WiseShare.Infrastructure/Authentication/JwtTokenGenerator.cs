@@ -5,10 +5,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Wiseshare.Application.Common.Interfaces.Authentication;
 using Wiseshare.Domain.UserAggregate;
-using Wiseshare.Domain.UserAggregate.ValueObjects;
-using WiseShare.Application.Common.Interfaces.Services;
+using Wiseshare.Application.Common.Interfaces.Services;
 
-namespace WiseShare.Infrastructure.Authentication;
+namespace Wiseshare.Infrastructure.Authentication;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
@@ -28,12 +27,12 @@ public class JwtTokenGenerator : IJwtTokenGenerator
               Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
           SecurityAlgorithms.HmacSha256);
         //claims are pieces of information stored in a JWT(json Web token) describes the user of the toke stateless
-        var claims = new[]
-        {
+        var claims = new[]{
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()!),
             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
             new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Role, user.Role)
         };
         // create security toke
 

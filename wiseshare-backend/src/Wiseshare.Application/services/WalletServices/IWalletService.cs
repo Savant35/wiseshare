@@ -7,8 +7,9 @@ namespace Wiseshare.Application.Services;
 
 public interface IWalletService
 {
-    public Result<Wallet> GetWalletById(WalletId walletId);
-    public Result<Wallet> GetWalletByUserId(UserId userId);
-    public Result Update(Wallet wallet);
-    public Result Insert(Wallet wallet);
+    Task<Result<Wallet>> GetWalletByIdAsync(WalletId walletId);
+    Task<Result<Wallet>> GetWalletByUserIdAsync(UserId userId);
+    Task<Result> InsertAsync(Wallet wallet);
+    Task<Result> UpdateAsync(Wallet wallet);
+    Task<Result> SaveAsync();
 }

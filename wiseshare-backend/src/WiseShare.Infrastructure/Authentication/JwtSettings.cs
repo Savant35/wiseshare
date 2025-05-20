@@ -1,4 +1,4 @@
-namespace WiseShare.Infrastructure.Authentication;
+namespace Wiseshare.Infrastructure.Authentication;
 
 public class JwtSettings
 {

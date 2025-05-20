@@ -1,4 +1,4 @@
-namespace WiseShare.Api;
+namespace Wiseshare.Api;
 
 public static class PresentationDependencyInjection
 {

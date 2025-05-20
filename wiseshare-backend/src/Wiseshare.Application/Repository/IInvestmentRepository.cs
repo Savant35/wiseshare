@@ -8,10 +8,13 @@ namespace Wiseshare.Application.Repository;
 public interface IInvestmentRepository
 {
 
-    public Result<Investment> GetInvestmentById(InvestmentId investmentId);
-    public Result<IEnumerable<Investment>> GetInvestmentByUserId(UserId userId);
-    public Result<IEnumerable<Investment>> GetInvestmentByPropertyId(PropertyId propertyId);
-    public Result<IEnumerable<Investment>> GetInvestments();
-    public Result Insert(Investment investment);
-    public Result Update(Investment investment);
+    Task<Result<Investment>> GetInvestmentByIdAsync(InvestmentId investmentId);
+    Task<Result<IEnumerable<Investment>>> GetInvestmentByUserIdAsync(UserId userId);
+    Task<Result<IEnumerable<Investment>>> GetInvestmentByPropertyIdAsync(PropertyId propertyId);
+    Task<Result<IEnumerable<Investment>>> GetInvestmentsAsync();
+    Task<Result> InsertAsync(Investment investment);
+    Task<Result> UpdateAsync(Investment investment);
+    Task<Result> DeleteAsync(InvestmentId investmentId);
+     Task<Result> SaveAsync();
+
 }

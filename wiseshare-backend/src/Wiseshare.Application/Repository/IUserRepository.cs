@@ -2,14 +2,13 @@ using FluentResults;
 using Wiseshare.Domain.UserAggregate;
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 namespace Wiseshare.Application.Repository;
-public interface IUserRepository
-{
-    public Result<User> GetUserByEmail(string UserEmail);
-    public Result<User> GetUserByPhone(string UserPhone);
-    public Result<User> GetUserById(UserId userId);
-    public Result<IEnumerable<User>> GetUsers();
-    public Result Insert(User user);
-    public Result Delete(UserId userId);
-    public Result Update(User user);
-    public Result Save();
+public interface IUserRepository{
+    Task<Result<User>> GetUserByEmailAsync(string userEmail);
+        Task<Result<User>> GetUserByPhoneAsync(string userPhone);
+        Task<Result<User>> GetUserByIdAsync(UserId userId);
+        Task<Result<IEnumerable<User>>> GetUsersAsync();
+        Task<Result> InsertAsync(User user);
+        Task<Result> DeleteAsync(UserId userId);
+        Task<Result> UpdateAsync(User user);
+        Task<Result> SaveAsync();
 }

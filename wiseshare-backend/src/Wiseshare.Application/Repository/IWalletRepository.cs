@@ -5,11 +5,11 @@ using Wiseshare.Domain.WalletAggregate.ValueObjects;
 
 namespace Wiseshare.Application.Repository;
 
-public interface IWalletRepository {
-    public Result<Wallet> GetWalletById(WalletId walletId); // Get wallet by wallet ID
-    public Result<Wallet> GetWalletByUserId(UserId userId); // Get wallet by user ID
-    public Result Insert(Wallet wallet); // Insert a new wallet
-    public Result Update(Wallet wallet); // Update wallet values
-
-    //public Result Delete(WalletId walletId);
+public interface IWalletRepository
+{
+    Task<Result<Wallet>> GetWalletByIdAsync(WalletId walletId); // Get wallet by wallet ID
+    Task<Result<Wallet>> GetWalletByUserIdAsync(UserId userId); // Get wallet by user ID
+    Task<Result> InsertAsync(Wallet wallet); // Insert a new wallet
+    Task<Result> UpdateAsync(Wallet wallet); // Update wallet values
+    Task<Result> SaveAsync();
 }

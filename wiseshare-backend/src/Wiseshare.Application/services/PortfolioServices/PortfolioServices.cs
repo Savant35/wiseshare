@@ -1,9 +1,8 @@
 using FluentResults;
-using wiseshare.Domain.PortfolioAggregate.ValueObjects;
 using Wiseshare.Application.Repository;
 using Wiseshare.Application.services.PortfolioServices;
+using wiseshare.Domain.PortfolioAggregate.ValueObjects;
 using Wiseshare.domain.PortfolioAggregate;
-
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 
 namespace Wiseshare.Application.Services
@@ -17,28 +16,29 @@ namespace Wiseshare.Application.Services
             _portfolioRepository = portfolioRepository;
         }
 
-        public Result<Portfolio> GetPortfolioById(PortfolioId portfolioId)
+        public async Task<Result<Portfolio>> GetPortfolioByIdAsync(PortfolioId portfolioId)
         {
-            return _portfolioRepository.GetPortfolioById(portfolioId);
+            return await _portfolioRepository.GetPortfolioByIdAsync(portfolioId);
         }
 
-        public Result<Portfolio> GetPortfolioByUserId(UserId userId)
+        public async Task<Result<Portfolio>> GetPortfolioByUserIdAsync(UserId userId)
         {
-            return _portfolioRepository.GetPortfolioByUserId(userId);
+            return await _portfolioRepository.GetPortfolioByUserIdAsync(userId);
         }
 
-        public Result Insert(Portfolio portfolio)
+        public async Task<Result> InsertAsync(Portfolio portfolio)
         {
-            return _portfolioRepository.Insert(portfolio);
+            return await _portfolioRepository.InsertAsync(portfolio);
         }
 
-
-
-        public Result Update(Portfolio portfolio)
+        public async Task<Result> UpdateAsync(Portfolio portfolio)
         {
-            return _portfolioRepository.Update(portfolio);
+            return await _portfolioRepository.UpdateAsync(portfolio);
         }
 
-
+        public async Task<Result> SaveAsync()
+        {
+            return await _portfolioRepository.SaveAsync();
+        }
     }
 }

@@ -1,8 +1,9 @@
-namespace WiseShare.Api.DTO.Authentication;
+namespace Wiseshare.Api.DTO.Authentication;
 public record AuthenticationResponse(
     //string Id,
     string Token,
     string FirstName,
-    string LastName
+    string LastName,
+    string Role
 );
 

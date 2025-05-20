@@ -6,33 +6,30 @@ using Wiseshare.Domain.WalletAggregate.ValueObjects;
 
 namespace Wiseshare.Application.Services;
 
-public class WalletService : IWalletService
-{
+public class WalletService : IWalletService{
     private readonly IWalletRepository _walletRepository;
 
-    public WalletService(IWalletRepository walletRepository)
-    {
+    public WalletService(IWalletRepository walletRepository){
         _walletRepository = walletRepository;
     }
 
-    public Result<Wallet> GetWalletById(WalletId walletId)
-    {
-        return _walletRepository.GetWalletById(walletId);
+    public async Task<Result<Wallet>> GetWalletByIdAsync(WalletId walletId){
+        return await _walletRepository.GetWalletByIdAsync(walletId);
     }
 
-    public Result<Wallet> GetWalletByUserId(UserId userId)
-    {
-        return _walletRepository.GetWalletByUserId(userId);
+    public async Task<Result<Wallet>> GetWalletByUserIdAsync(UserId userId){
+        return await _walletRepository.GetWalletByUserIdAsync(userId);
     }
 
-    public Result Insert(Wallet wallet)
-    {
-        return _walletRepository.Insert(wallet);
+    public async Task<Result> InsertAsync(Wallet wallet){
+        return await _walletRepository.InsertAsync(wallet);
     }
 
-    public Result Update(Wallet wallet)
-    {
-        return _walletRepository.Update(wallet);
+    public async Task<Result> UpdateAsync(Wallet wallet){
+        return await _walletRepository.UpdateAsync(wallet);
+    }
+    public async Task<Result> SaveAsync(){
+        return await _walletRepository.SaveAsync();
     }
 }
 

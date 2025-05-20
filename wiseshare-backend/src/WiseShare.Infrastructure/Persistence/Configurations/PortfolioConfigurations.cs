@@ -1,19 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using wiseshare.Domain.PortfolioAggregate.ValueObjects;
-using Wiseshare.domain.PortfolioAggregate;
+using Wiseshare.domain.PortfolioAggregate;  // adjust namespace if needed
 using Wiseshare.Domain.UserAggregate.ValueObjects;
 
-namespace WiseShare.Infrastructure.Persistence.Configurations
+namespace Wiseshare.Infrastructure.Persistence.Configurations
 {
-    public class PortfolioConfigurations : IEntityTypeConfiguration<Portfolio>
+    public class PortfolioConfiguration : IEntityTypeConfiguration<Portfolio>
     {
         public void Configure(EntityTypeBuilder<Portfolio> builder)
-        {
-            ConfigurePortfolioTable(builder);
-        }
-
-        private void ConfigurePortfolioTable(EntityTypeBuilder<Portfolio> builder)
         {
             builder.ToTable("Portfolios");
 
@@ -21,43 +16,41 @@ namespace WiseShare.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.Id)
                 .ValueGeneratedNever()
-                .HasConversion(
-                    id => id.Value,
-                    value => PortfolioId.Create(value));
+                .HasConversion(id => id.Value, value => PortfolioId.Create(value));
 
             builder.Property(p => p.UserId)
                 .IsRequired()
-                .HasConversion(
-                    id => id.Value,
-                    value => UserId.Create(value));
+                .HasConversion(id => id.Value, value => UserId.Create(value))
+                .HasColumnType("TEXT");  // ensure type is TEXT
 
-/*
-            builder.HasMany(p => p.Investment)
-                .WithOne(i => i.Portfolio) // Link to the navigation property in Investment
-                .HasForeignKey(i => i.PortfolioId); // Use PortfolioId as the foreign key
-                */
+            // Declare UserId as an alternate key (creates a UNIQUE constraint)
+            builder.HasAlternateKey(p => p.UserId);
 
             builder.Property(p => p.TotalInvestmentAmount)
                 .IsRequired()
-                .HasPrecision(18, 2) // Suitable for monetary values
-                .HasDefaultValue(0); // Default balance is 0
-
-            builder.Property(p => p.TotalReturns)
+                .HasPrecision(18, 2)
+                .HasDefaultValue(0);
+            
+            builder.Property(p => p.RealizedProfit)                   
                 .IsRequired()
-                .HasPrecision(18, 2) // Suitable for monetary values
-                .HasDefaultValue(0); // Default return is 0
+                .HasPrecision(18, 2)
+                .HasDefaultValue(0);
 
-            // Property: CreatedDateTime
             builder.Property(p => p.CreatedDateTime)
                 .HasDefaultValueSql("datetime('now', 'localtime')")
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            // Property: UpdatedDateTime
             builder.Property(p => p.UpdatedDateTime)
                 .HasDefaultValueSql("datetime('now', 'localtime')")
-                .ValueGeneratedOnAddOrUpdate()
+                .ValueGeneratedOnAdd()
                 .IsRequired();
+            
+            // Configure the one-to-many relationship based on UserId.
+            builder.HasMany(p => p.Investment)
+                   .WithOne() 
+                   .HasForeignKey(i => i.UserId) 
+                   .HasPrincipalKey(p => p.UserId);
         }
     }
 }

@@ -1,10 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
+using Wiseshare.Application.Authentication;
+using Wiseshare.Application.PropertyServices;
 using Wiseshare.Application.services.InvestmentServices;
 using Wiseshare.Application.services.PortfolioServices;
 using Wiseshare.Application.Services;
-using WiseShare.Application.Authentication;
 
-namespace WiseShare.Application;
+namespace Wiseshare.Application;
 
 public static class DependencyInjection
 {

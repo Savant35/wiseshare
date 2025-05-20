@@ -4,7 +4,7 @@ using Wiseshare.Domain.PropertyAggregate;
 using Wiseshare.Domain.PropertyAggregate.ValueObjects;
 
 
-namespace WiseShare.Infrastructure.Persistence.Configurations;
+namespace Wiseshare.Infrastructure.Persistence.Configurations;
 
 
 public class PropertyConfiguration : IEntityTypeConfiguration<Property>
@@ -73,12 +73,22 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
             .ValueGeneratedOnAdd()
             .IsRequired();
 
+        builder.Property(p => p.ImageUrls)
+            .HasMaxLength(500)
+            .IsRequired();
+
+
         // Set default value for UpdatedDateTime
         builder.Property(p => p.UpdatedDateTime)
             //.HasDefaultValueSql("CURRENT_TIMESTAMP") // Automatically set to current UTC time
             .HasDefaultValueSql("datetime('now', 'localtime')") // Converts to local timezone
             .ValueGeneratedOnAdd()
             .IsRequired();
+
+        builder.Property(p => p.InvestmentsEnabled)
+            .IsRequired()
+            .HasDefaultValue(true);
+
     }
 
 

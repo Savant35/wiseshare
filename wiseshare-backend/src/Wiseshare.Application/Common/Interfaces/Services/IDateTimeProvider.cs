@@ -1,4 +1,4 @@
-namespace WiseShare.Application.Common.Interfaces.Services;
+namespace Wiseshare.Application.Common.Interfaces.Services;
 
 
 public interface IDateTimeProvider{
