@@ -1,3 +1,4 @@
+
 <a name="readme-top"></a>
 <!-- PROJECT LOGO -->
 <br />
@@ -6,8 +7,7 @@
   <h3 align="center">WiseShare</h3>
 
   <p align="center">
-      A full-stack property investment platform with secure payments and admin management.
-
+    A full-stack property investment platform with secure payments and admin management.
     <br />
     <a href="#demo">View Demo</a>
     ·
