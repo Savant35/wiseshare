@@ -1,101 +1,143 @@
-
 <a name="readme-top"></a>
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
 
-  <h3 align="center">WiseShare</h3>
-
+  <h2 align="center">WiseShare</h2>
   <p align="center">
-    A full-stack property investment platform with secure payments and admin management.
+    WiseShare is a RESTful API for fractional property investment, handling user authentication, property management, investments, portfolios, payments via Stripe, and wallets, built with ASP.NET Core, EF Core, JWT auth, and Swagger UI.
     <br />
-    <a href="#demo">View Demo</a>
+    <a href="#preview">Preview</a>
     ·
     <a href="https://github.com/Savant35/wiseshare/issues">Report Bug</a>
     ·
     <a href="https://github.com/Savant35/wiseshare/pulls">Request Feature</a>
   </p>
+  
 </div>
-
----
-
-## Table of Contents
-
+<!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Jump to</summary>
+  <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-the-project">About The Project</a></li>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
-        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#appsettings.json">.env File</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#demo">Demo</a></li>
+    <li><a href="#preview">Preview</a></li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
 
----
-
+<!-- ABOUT THE PROJECT -->
 ## About The Project
-
-WiseShare backend is a RESTful API for fractional property investment.  
-It provides endpoints to:
-
-
- **Authenticate** users (register/login/verify email/reset password)  
- **Manage** user profiles, roles, and account status  
- **Create**, **search**, **update**, and **delete** properties  
- **Invest** in properties, **sell** shares, and **request**/approve sell orders  
- **Track** portfolios and investment summaries  
- **Handle** deposits, withdrawals, and refunds via Stripe, with webhooks  
- **Maintain** user wallets and balances  
-
-Built with:
- ASP.NET Core Web API  
- EF Core (SQLite / SQL Server)  
- Stripe.NET for payments  
- JWT Bearer tokens for auth  
- Swagger UI for interactive docs  
-
-
-WiseShare Admin Dashboard is a modern web interface for managing a fractional property investment platform.
-It allows admins to:
-
- Built with:
- Next.js (App Router)
- Tailwind CSS for styling
- TypeScript for type safety
- Lucide React for icons
- Firebase or API integration for dynamic data
- Responsive, theme-aware, and component-based design
+WiseShare backend is a RESTful API for fractional property investment, providing endpoints to authenticate users (register, login, verify email, reset password), manage user profiles, roles, and account status, create, search, update, and delete properties, invest in properties, sell shares, and request/approve sell orders, track portfolios and investment summaries, handle deposits, withdrawals, and refunds via Stripe (including webhooks), and maintain user wallets and balances. It is built with ASP.NET Core Web API, EF Core (SQLite/SQL Server), Stripe.NET for payments, JWT Bearer tokens for authentication, and Swagger UI for interactive documentation.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
----
 
+<!-- GETTING STARTED -->
 ## Getting Started
 
 ### Prerequisites
-
- [.NET 7 SDK](https://dotnet.microsoft.com/download)  
- (Optional) Docker & Docker Compose  
- Node.js 18+
- pnpm or npm
- A Stripe account (for payments)  
+* .Net 9.0
+* stripe account
+* c#
 
 ### Installation
+```sh
+git clone https://github.com/Savant35/wiseshare.git
+cd wiseshare/wiseshare/
+dotnet restore
+dotnet build
+dotnet run --project ./src/WiseShare.Api
+```
 
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/Savant35/wiseshare.git 
-   cd WiseShare-Backend
-Run:
-backend: dotnet run
-frontend:  npm run dev
+### appsettings.json
+<p>Before running, open src/WiseShare.Api/appsettings.json and update the JWT secret, database connection, and any environment-specific settings. </p>
+
+```sh
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "JwtSettings": {
+    "Secret": "",
+    "ExpiryMinutes": ,
+    "Issuer": "",
+    "Audience": ""
+  },
+  "ConnectionStrings": {
+    "WiseshareDatabase": "Data Source=Wiseshare.db"
+  }
+}
+```
+
+### appsettings.Development.json
+<p>Before running, open src/WiseShare.Api/appsettings.Development.json and update the JWT secret, database connection, and any environment-specific settings. </p>
+
+```sh
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "JwtSettings": {
+    "Secret": "",
+    "ExpiryMinutes": 60,
+    "Issuer": "",
+    "Audience": ""
+  },
+  "Stripe": {
+    "SecretKey": "",
+    "PublishableKey": "",
+    "WebhookSecret": ""
+  },
+  "Smtp": {
+    "From": "",
+    "Host": "",
+    "Port": "",
+    "User": "",
+    "Pass": ""
+  },
+  "Api": {
+    "BaseUrl": ""
+  }
+}
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## preview 
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width:100%">
+  <img src="https://github.com/user-attachments/assets/441dfc30-f7d3-4022-af7a-e1101d1e6cdc" alt="Image" style="width: 48%; height: 300px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/9c3692e3-9802-443f-9852-fb1227235531" alt="Image" style="width: 48%; height: 300px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/2d59c409-a849-4366-aa3a-ad48af3e64ab" alt="Image" style="width: 48%; height: 300px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/3c95cb16-a0f8-4986-a09e-d512958992aa" alt="Image" style="width: 48%; height: 300px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/e3e1ca20-c864-43eb-aa99-6c12674d328c" alt="Image" style="width: 48%; height: 300px; object-fit: cover;">
+  <img src="https://github.com/user-attachments/assets/c0e7af82-90a4-46f3-aa08-061563f16dcc" alt="Image" style="width: 48%; height: 300px; object-fit: cover;">
+</div>
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
